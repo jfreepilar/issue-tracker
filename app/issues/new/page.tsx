@@ -11,8 +11,7 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { createIssueSchema } from '@/app/createIssueSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const errorMb: string = '2'
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
@@ -62,11 +61,9 @@ const NewIssuePage = () => {
           {...register('title')}
         >
         </TextField.Root>
-        {errors.title && 
-          <Text color='red' as='p' mb={errorMb}>
-            {errors.title.message}
-          </Text>
-        }
+        <ErrorMessage>
+          {errors.title?.message}
+        </ErrorMessage>
         <Controller name='description'
           control={control}
           render={({ field }) =>
@@ -75,11 +72,9 @@ const NewIssuePage = () => {
             />
           }
         />
-        {errors.description && 
-          <Text color='red' as='p' mb={errorMb}>
-            {errors.description.message}
-          </Text>
-        }
+        <ErrorMessage>
+          {errors.description?.message}
+        </ErrorMessage>
         <Button >Submit New Issue</Button>
       </form>
     </div>
