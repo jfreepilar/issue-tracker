@@ -11,9 +11,9 @@ const IssuesPage = async () => {
   return (
     <div>
       <div className='mb-5'>
-          <Button>
-            <NextLink href='/issues/new'>New Issue</NextLink>
-          </Button>
+      <Button>
+        <NextLink href='/issues/new'>New Issue</NextLink>
+      </Button>
       </div>
       <Table.Root variant='surface'>
         <Table.Header>
