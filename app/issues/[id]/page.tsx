@@ -4,15 +4,11 @@ import { notFound } from 'next/navigation';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
 
-interface Props {
-  params: Promise<{id: string}>
-}
 
-const IssueDetailPage = async (props: Props) => {
-  const params = await props.params;
-
+const IssueDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const {id} = await params
   const issue = await prisma.issue.findUnique({
-      where: {id: params.id}
+      where: { id }
   })
 
   if (!issue)  notFound();
