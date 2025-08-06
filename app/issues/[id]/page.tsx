@@ -7,7 +7,7 @@ import IssueDetails from './IssueDetails';
 const IssueDetailPage = async ( {id} : {id: string} ) => {
 
     const issue = await prisma.issue.findUnique({
-        where: {id}
+        where: {id: id}
     })
 
     if (!issue)  notFound();
