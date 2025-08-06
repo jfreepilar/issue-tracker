@@ -1,20 +1,13 @@
-import { IssueStatusBadge } from '@/app/components';
 import { prisma } from '@/prisma/client';
-import { Box, Button, Card, Flex, Grid, Heading, Text } from '@radix-ui/themes';
+import { Box, Grid } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
-import Markdown from 'react-markdown';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
 
-
-interface Props {
-    params: {id: string}
-}
-
-const IssueDetailPage = async ( {params} : Props) => {
+const IssueDetailPage = async ( {id} : {id: string} ) => {
 
     const issue = await prisma.issue.findUnique({
-        where: {id: params.id}
+        where: {id}
     })
 
     if (!issue)  notFound();
