@@ -38,7 +38,7 @@ const IssueForm = ( {issue} : {issue? : Issue}) => {
   const onSubmit = async (data: IssueFormData) => {
     try {
       if (issue)
-        await axios.patch('/api/issue'+ issue.id, data)
+        await axios.patch('/api/issues/' + issue.id, data)
       else 
         await axios.post('/api/issues', data);
       router.push('/issues')

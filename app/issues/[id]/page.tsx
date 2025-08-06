@@ -5,16 +5,17 @@ import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
 
 interface Props {
-  params: {id: string}
+  params: Promise<{id: string}>
 }
 
-const IssueDetailPage = async ( {params} : Props) => {
+const IssueDetailPage = async (props: Props) => {
+  const params = await props.params;
 
-    const issue = await prisma.issue.findUnique({
-        where: {id: params.id}
-    })
+  const issue = await prisma.issue.findUnique({
+      where: {id: params.id}
+  })
 
-    if (!issue)  notFound();
+  if (!issue)  notFound();
 
   return (
     <Grid columns={{ initial: "1", md: "2",  }} gap="5" >
