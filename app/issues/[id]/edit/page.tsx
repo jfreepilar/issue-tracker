@@ -1,7 +1,6 @@
-import IssueForm from '../../_components/IssueForm'
 import { prisma } from '@/prisma/client'
 import { notFound } from 'next/navigation'
-// import { PageProps } from '@/types/page-props'
+import IssueForm from '@/app/issues/_components/IssueForm'
 
 
 const EditIssuePage = async ({ params }: { params: Promise<{ id: string }> }) => {
