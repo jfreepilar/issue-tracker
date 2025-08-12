@@ -7,7 +7,7 @@ const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
   
   return (
-    <div>
+    <>
       <div className='mb-5'>
       <Button>
         <NextLink href='/issues/new'>New Issue</NextLink>
@@ -20,7 +20,7 @@ const IssuesPage = async () => {
             <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className='hidden md:table-cell'>Created</Table.ColumnHeaderCell>
           </Table.Row>
-        </Table.Header>
+        </Table.Header> 
 
         <Table.Body>
           {issues.map(issue => (
@@ -40,11 +40,8 @@ const IssuesPage = async () => {
             </Table.Row>
           ))}
         </Table.Body>
-
       </Table.Root>
-
-    </div>
-
+    </>
   )
 }
 
