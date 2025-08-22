@@ -1,18 +1,20 @@
 import { IssueStatusBadge, Link } from "@/app/components";
 import { prisma } from "@/prisma/client";
-import { Button, Table } from "@radix-ui/themes";
+import { Button, Flex, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
+import FilterIssueStatus from "./FilterIssueStatus";
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
 
   return (
     <>
-      <div className="mb-5">
+      <Flex className="mb-5" justify="between">
+        <FilterIssueStatus />
         <Button>
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
-      </div>
+      </Flex>
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
