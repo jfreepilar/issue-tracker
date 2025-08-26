@@ -1,27 +1,52 @@
 import { IssueStatusBadge, Link } from "@/app/components";
 import { prisma } from "@/prisma/client";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import FilterIssueStatus from "./FilterIssueStatus";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
+import SortIssues from "./SortIssues";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ status: Status | "ALL" }>;
+  searchParams: Promise<{ status: Status | "ALL"; orderBy: keyof Issue }>;
 }) => {
-  const { status } = await searchParams;
+  const columnHeaderCellStyle: string = "hidden md:table-cell";
+  const { status, orderBy } = await searchParams;
+
+  const columns: {
+    label: string;
+    value: keyof Issue;
+    columnHeaderStyling?: string;
+  }[] = [
+    {
+      label: "Issue",
+      value: "title",
+    },
+    {
+      label: "Status",
+      value: "status",
+      columnHeaderStyling: columnHeaderCellStyle,
+    },
+    {
+      label: "Created",
+      value: "createdAt",
+      columnHeaderStyling: columnHeaderCellStyle,
+    },
+  ];
 
   const issues = await prisma.issue.findMany({
-    where: {
-      ...(status !== "ALL" ? { status } : {}),
-    },
+    where: status !== "ALL" ? { status } : {},
   });
 
   return (
     <>
       <Flex className="mb-5" justify="between">
-        <FilterIssueStatus />
+        <Flex gap="1.5rem">
+          <FilterIssueStatus />
+          <SortIssues />
+        </Flex>
         <Button>
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
@@ -29,13 +54,23 @@ const IssuesPage = async ({
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.columnHeaderStyling}
+              >
+                <NextLink
+                  href={{
+                    query: { status, orderBy: column.value },
+                  }}
+                >
+                  {column.label}
+                  {column.value === orderBy && (
+                    <ArrowUpIcon className="inline" />
+                  )}
+                </NextLink>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
 
