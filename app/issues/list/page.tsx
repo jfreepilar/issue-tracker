@@ -1,8 +1,10 @@
 import { IssueStatusBadge, Link } from "@/app/components";
+import { searchParamsSchema } from "@/app/validationIssueSchema";
 import { prisma } from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
+import z from "zod";
 import FilterIssueStatus from "./FilterIssueStatus";
 import SortIssues from "./SortIssues";
 
@@ -16,7 +18,18 @@ const IssuesPage = async ({
   }>;
 }) => {
   const columnHeaderCellStyle: string = "hidden md:table-cell";
-  const { status, orderField, orderValue } = await searchParams;
+  const parsed = searchParamsSchema.safeParse(await searchParams);
+  let safeParams: z.infer<typeof searchParamsSchema>;
+  if (!parsed.success) {
+    safeParams = searchParamsSchema.parse({});
+  } else {
+    safeParams = parsed.data;
+  }
+
+  const issues = await prisma.issue.findMany({
+    where: safeParams.status !== "ALL" ? { status: safeParams.status } : {},
+    orderBy: { [safeParams.orderField]: safeParams.orderValue },
+  });
 
   const columns: {
     label: string;
@@ -38,11 +51,6 @@ const IssuesPage = async ({
       columnHeaderStyling: columnHeaderCellStyle,
     },
   ];
-
-  const issues = await prisma.issue.findMany({
-    where: status !== "ALL" ? { status } : {},
-    orderBy: { [orderField]: orderValue },
-  });
 
   return (
     <>

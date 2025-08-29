@@ -15,3 +15,9 @@ export const patchIssueSchema = z.object({
     .optional()
     .nullable(),
 });
+
+export const searchParamsSchema = z.object({
+  status: z.enum(["OPEN", "IN_PROGRESS", "CLOSED", "ALL"]).default("ALL"),
+  orderField: z.enum(["title", "createdAt"]).default("createdAt"),
+  orderValue: z.enum(["asc", "desc"]).default("desc"),
+});
