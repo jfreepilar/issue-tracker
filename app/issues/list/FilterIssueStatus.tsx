@@ -17,7 +17,9 @@ const FilterIssueStatus = () => {
     <Select.Root
       onValueChange={(status) => {
         const params = new URLSearchParams();
-        if (status) params.set("status", status);
+        if (status) {
+          params.set("status", status);
+        }
 
         router.push(`/issues/list?${params.toString()}`);
       }}

@@ -4,16 +4,19 @@ import { Issue, Status } from "@prisma/client";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import FilterIssueStatus from "./FilterIssueStatus";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
 import SortIssues from "./SortIssues";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ status: Status | "ALL"; orderBy: keyof Issue }>;
+  searchParams: Promise<{
+    status: Status | "ALL";
+    orderField: string;
+    orderValue: string;
+  }>;
 }) => {
   const columnHeaderCellStyle: string = "hidden md:table-cell";
-  const { status, orderBy } = await searchParams;
+  const { status, orderField, orderValue } = await searchParams;
 
   const columns: {
     label: string;
@@ -38,6 +41,7 @@ const IssuesPage = async ({
 
   const issues = await prisma.issue.findMany({
     where: status !== "ALL" ? { status } : {},
+    orderBy: { [orderField]: orderValue },
   });
 
   return (
@@ -59,16 +63,7 @@ const IssuesPage = async ({
                 key={column.value}
                 className={column.columnHeaderStyling}
               >
-                <NextLink
-                  href={{
-                    query: { status, orderBy: column.value },
-                  }}
-                >
-                  {column.label}
-                  {column.value === orderBy && (
-                    <ArrowUpIcon className="inline" />
-                  )}
-                </NextLink>
+                {column.label}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
