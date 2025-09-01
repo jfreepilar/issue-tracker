@@ -18,22 +18,26 @@ const selectItems: SelectItems[] = [
 const SortIssues = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   return (
     <Select.Root
+      defaultValue={searchParams.get("orderValue") || "desc-createdAt"}
       onValueChange={(sort) => {
         const params = new URLSearchParams(searchParams);
         const [orderValue, orderField] = sort.split("-");
+
         params.set("orderField", orderField);
         params.set("orderValue", orderValue);
+
         router.push(`/issues/list?${params.toString()}`);
       }}
     >
-      <Select.Trigger placeholder="Sort by status..." />
+      <Select.Trigger placeholder="Sort by order..." />
       <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Alphabet</Select.Label>
-          {selectItems.slice(0, 2).map((item, i) => (
-            <Select.Item key={i} value={item.value}>
+          {selectItems.slice(0, 2).map((item) => (
+            <Select.Item key={item.value} value={item.value}>
               {item.label}
             </Select.Item>
           ))}
@@ -41,8 +45,8 @@ const SortIssues = () => {
         <Select.Separator />
         <Select.Group>
           <Select.Label>Dates</Select.Label>
-          {selectItems.slice(2, 4).map((item, i) => (
-            <Select.Item key={i} value={item.value}>
+          {selectItems.slice(2, 4).map((item) => (
+            <Select.Item key={item.value} value={item.value}>
               {item.label}
             </Select.Item>
           ))}
