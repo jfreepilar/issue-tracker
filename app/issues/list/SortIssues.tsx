@@ -21,7 +21,13 @@ const SortIssues = () => {
 
   return (
     <Select.Root
-      defaultValue={searchParams.get("orderValue") || "desc-createdAt"}
+      defaultValue={`${
+        searchParams.get("orderValue") && searchParams.get("orderField")
+          ? searchParams.get("orderValue") +
+            "-" +
+            searchParams.get("orderField")
+          : "asc-createdAt"
+      }`}
       onValueChange={(sort) => {
         const params = new URLSearchParams(searchParams);
         const [orderValue, orderField] = sort.split("-");
