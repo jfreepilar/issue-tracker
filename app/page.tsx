@@ -1,9 +1,17 @@
 import { Pagination } from "./components";
 
-export default function Home() {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string }>;
+}) => {
+  const { page } = await searchParams;
+
   return (
     <div>
-      <Pagination itemCount={100} pageSize={10} currentPage={2} />
+      <Pagination itemCount={100} pageSize={10} currentPage={parseInt(page)} />
     </div>
   );
-}
+};
+
+export default Home;
