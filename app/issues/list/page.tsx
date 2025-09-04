@@ -1,4 +1,4 @@
-import { IssueStatusBadge, Link } from "@/app/components";
+import { IssueStatusBadge, Link, Pagination } from "@/app/components";
 import { searchParamsSchema } from "@/app/validationIssueSchema";
 import { prisma } from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
@@ -15,6 +15,7 @@ const IssuesPage = async ({
     status: Status | "ALL";
     orderField: string;
     orderValue: string;
+    page: string;
   }>;
 }) => {
   const columnHeaderCellStyle: string = "hidden md:table-cell";
@@ -26,9 +27,24 @@ const IssuesPage = async ({
     safeParams = parsed.data;
   }
 
+  const issueCount = await prisma.issue.count({
+    where: safeParams.status !== "ALL" ? { status: safeParams.status } : {},
+  });
+
+  const page = parseInt(safeParams.page) || 1;
+  const pageSize = 10;
+
+  const pageCount = Math.ceil(issueCount / pageSize);
+  let safePage = page;
+  if (page > pageCount) {
+    safePage = 1;
+  }
+
   const issues = await prisma.issue.findMany({
     where: safeParams.status !== "ALL" ? { status: safeParams.status } : {},
     orderBy: { [safeParams.orderField]: safeParams.orderValue },
+    skip: (safePage - 1) * pageSize,
+    take: pageSize,
   });
 
   const columns: {
@@ -63,7 +79,7 @@ const IssuesPage = async ({
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
       </Flex>
-      <Table.Root variant="surface">
+      <Table.Root variant="surface" mb="4">
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
@@ -96,6 +112,11 @@ const IssuesPage = async ({
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={issueCount}
+        pageSize={pageSize}
+        currentPage={safePage}
+      />
     </>
   );
 };

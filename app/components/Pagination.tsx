@@ -7,7 +7,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import { Button, Flex, Text } from "@radix-ui/themes";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
@@ -18,10 +18,10 @@ interface Props {
 }
 
 const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const pageCount = Math.ceil(itemCount / pageSize);
   if (pageCount <= 1) return null;
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
   const changePage = (page: number) => {
     const params = new URLSearchParams(searchParams);

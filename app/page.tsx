@@ -9,7 +9,11 @@ const Home = async ({
 
   return (
     <div>
-      <Pagination itemCount={100} pageSize={10} currentPage={parseInt(page)} />
+      <Pagination
+        itemCount={100}
+        pageSize={10}
+        currentPage={parseInt(page) || 1}
+      />
     </div>
   );
 };
