@@ -1,11 +1,12 @@
-import { IssueStatusBadge, Link, Pagination } from "@/app/components";
+import { Pagination } from "@/app/components";
 import { searchParamsSchema } from "@/app/validationIssueSchema";
 import { prisma } from "@/prisma/client";
-import { Issue, Status } from "@prisma/client";
-import { Button, Flex, Table } from "@radix-ui/themes";
+import { Status } from "@prisma/client";
+import { Button, Flex } from "@radix-ui/themes";
 import NextLink from "next/link";
 import z from "zod";
 import FilterIssueStatus from "./FilterIssueStatus";
+import IssueTable from "./IssueTable";
 import SortIssues from "./SortIssues";
 
 const IssuesPage = async ({
@@ -18,7 +19,6 @@ const IssuesPage = async ({
     page: string;
   }>;
 }) => {
-  const columnHeaderCellStyle: string = "hidden md:table-cell";
   const parsed = searchParamsSchema.safeParse(await searchParams);
   let safeParams: z.infer<typeof searchParamsSchema>;
   if (!parsed.success) {
@@ -47,27 +47,6 @@ const IssuesPage = async ({
     take: pageSize,
   });
 
-  const columns: {
-    label: string;
-    value: keyof Issue;
-    columnHeaderStyling?: string;
-  }[] = [
-    {
-      label: "Issue",
-      value: "title",
-    },
-    {
-      label: "Status",
-      value: "status",
-      columnHeaderStyling: columnHeaderCellStyle,
-    },
-    {
-      label: "Created",
-      value: "createdAt",
-      columnHeaderStyling: columnHeaderCellStyle,
-    },
-  ];
-
   return (
     <>
       <Flex className="mb-5" justify="between">
@@ -79,39 +58,7 @@ const IssuesPage = async ({
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
       </Flex>
-      <Table.Root variant="surface" mb="4">
-        <Table.Header>
-          <Table.Row>
-            {columns.map((column) => (
-              <Table.ColumnHeaderCell
-                key={column.value}
-                className={column.columnHeaderStyling}
-              >
-                {column.label}
-              </Table.ColumnHeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">
-                  <IssueStatusBadge status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <IssueStatusBadge status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      <IssueTable issues={issues} />
       <Pagination
         itemCount={issueCount}
         pageSize={pageSize}
