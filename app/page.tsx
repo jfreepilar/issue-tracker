@@ -1,19 +1,10 @@
-import { Pagination } from "./components";
+import { prisma } from "@/prisma/client";
+import LatestIssueComponent from "./LatestIssueComponent";
 
-const Home = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ page: string }>;
-}) => {
-  const { page } = await searchParams;
-
+const Home = () => {
   return (
     <div>
-      <Pagination
-        itemCount={100}
-        pageSize={10}
-        currentPage={parseInt(page) || 1}
-      />
+      <LatestIssueComponent />
     </div>
   );
 };
