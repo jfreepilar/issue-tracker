@@ -19,11 +19,11 @@ const Home = async () => {
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
+      <LatestIssueComponent />
       <Flex direction="column" gap="5">
         <IssueSummaryPage dashBoardProps={dashBoardProps} />
         <IssueChart dashBoardProps={dashBoardProps} />
       </Flex>
-      <LatestIssueComponent />
     </Grid>
   );
 };
