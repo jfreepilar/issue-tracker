@@ -9,7 +9,8 @@ interface Props {
   closed: number;
 }
 
-const IssueSummaryPage = ({ open, inProgress, closed }: Props) => {
+const IssueSummaryPage = ({ dashBoardProps }: { dashBoardProps: Props }) => {
+  const { open, inProgress, closed } = dashBoardProps;
   const containers: {
     label: string;
     value: number;

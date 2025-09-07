@@ -9,7 +9,8 @@ interface Props {
   closed: number;
 }
 
-const IssueChart = ({ open, inProgress, closed }: Props) => {
+const IssueChart = ({ dashBoardProps }: { dashBoardProps: Props }) => {
+  const { open, inProgress, closed } = dashBoardProps;
   const data = [
     { label: "Open", value: open },
     { label: "In Progress", value: inProgress },
@@ -17,13 +18,19 @@ const IssueChart = ({ open, inProgress, closed }: Props) => {
   ];
 
   return (
-    <ResponsiveContainer width="40%" height={260}>
-      <BarChart data={data}>
-        <XAxis dataKey="label" />
-        <YAxis />
-        <Bar dataKey="value" barSize={60} style={{ fill: "var(--accent-9)" }} />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card>
+      <ResponsiveContainer width="100%" height={260}>
+        <BarChart data={data}>
+          <XAxis dataKey="label" />
+          <YAxis />
+          <Bar
+            dataKey="value"
+            barSize={60}
+            style={{ fill: "var(--accent-9)" }}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </Card>
   );
 };
 
