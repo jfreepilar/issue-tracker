@@ -8,6 +8,7 @@ import z from "zod";
 import FilterIssueStatus from "./FilterIssueStatus";
 import IssueTable from "./IssueTable";
 import SortIssues from "./SortIssues";
+import { Metadata } from "next";
 
 const IssuesPage = async ({
   searchParams,
@@ -69,4 +70,10 @@ const IssuesPage = async ({
 };
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "Browse and manage the complete list of project issues.",
+};
+
 export default IssuesPage;

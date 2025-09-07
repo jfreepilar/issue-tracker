@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Spinner } from '@/app/components';
-import { AlertDialog, Button, Flex } from '@radix-ui/themes'
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Spinner } from "@/app/components";
+import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const DeleteIssueButton = async ({issueId} : {issueId: string }) => {
+const DeleteIssueButton = ({ issueId }: { issueId: string }) => {
   const router = useRouter();
   const [error, setError] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -14,64 +14,66 @@ const DeleteIssueButton = async ({issueId} : {issueId: string }) => {
   const deleteIssue = async () => {
     try {
       setIsDeleting(true);
-      await axios.delete('/api/issues/' + issueId)
-      router.push('/issues/list')
-      router.refresh()
+      await axios.delete("/api/issues/" + issueId);
+      router.push("/issues/list");
+      router.refresh();
     } catch (error) {
       setIsDeleting(false);
       setError(false);
     }
-  }
+  };
 
   return (
     <>
-    <AlertDialog.Root>
-      <AlertDialog.Trigger>
-        <Button color='red'
-                disabled={isDeleting}
-        > 
-          Delete Issue
-          {isDeleting && <Spinner/>}
-        </Button>
-      </AlertDialog.Trigger>
-      <AlertDialog.Content>
-        <AlertDialog.Title> Confirm Deletion </AlertDialog.Title>
-        <AlertDialog.Description> Are you sure you want to delete this issue? This action could not be undone. </AlertDialog.Description>
-        <Flex gap="3" mt="4" justify="start">
-          <AlertDialog.Cancel>
-            <Button variant="soft" color="gray">
-              Cancel
-            </Button>
-          </AlertDialog.Cancel>
+      <AlertDialog.Root>
+        <AlertDialog.Trigger>
+          <Button color="red" disabled={isDeleting}>
+            Delete Issue
+            {isDeleting && <Spinner />}
+          </Button>
+        </AlertDialog.Trigger>
+        <AlertDialog.Content>
+          <AlertDialog.Title> Confirm Deletion </AlertDialog.Title>
+          <AlertDialog.Description>
+            {" "}
+            Are you sure you want to delete this issue? This action could not be
+            undone.{" "}
+          </AlertDialog.Description>
+          <Flex gap="3" mt="4" justify="start">
+            <AlertDialog.Cancel>
+              <Button variant="soft" color="gray">
+                Cancel
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action>
+              <Button variant="solid" color="red" onClick={deleteIssue}>
+                Delete Issue
+              </Button>
+            </AlertDialog.Action>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+
+      <AlertDialog.Root open={error}>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Error</AlertDialog.Title>
+          <AlertDialog.Description>
+            This issue could not be deleted
+          </AlertDialog.Description>
           <AlertDialog.Action>
-            <Button variant="solid"
-                    color="red"
-                    onClick={deleteIssue}
+            <Button
+              variant="soft"
+              color="gray"
+              mt="3"
+              onClick={() => setError(false)}
             >
-              Delete Issue
+              OK
             </Button>
           </AlertDialog.Action>
-        </Flex>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
-
-    <AlertDialog.Root open={error}>
-      <AlertDialog.Content>
-        <AlertDialog.Title>Error</AlertDialog.Title>
-        <AlertDialog.Description>This issue could not be deleted</AlertDialog.Description>
-        <AlertDialog.Action>
-          <Button variant="soft"
-                  color="gray"
-                  mt="3"
-                  onClick={() =>setError(false)}>
-            OK
-          </Button>
-        </AlertDialog.Action>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
-
+        </AlertDialog.Content>
+      </AlertDialog.Root>
     </>
-  )
-}
+  );
+};
 
-export default DeleteIssueButton
+export default DeleteIssueButton;

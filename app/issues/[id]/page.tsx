@@ -42,4 +42,20 @@ const IssueDetailPage = async ({
 };
 
 export const dynamic = "force-dynamic";
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const issue = await prisma.issue.findUnique({
+    where: { id },
+  });
+  return {
+    title: issue?.title,
+    description:
+      "View full details of the issue, with options to assign, edit, or delete it directly from this page.",
+  };
+};
+
 export default IssueDetailPage;
