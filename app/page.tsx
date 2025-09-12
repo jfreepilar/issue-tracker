@@ -1,10 +1,11 @@
 import { prisma } from "@/prisma/client";
-import LatestIssueComponent from "./LatestIssueComponent";
-import IssueSummaryPage from "./IssueSummaryPage";
-import IssueChart from "./IssueChart";
-import { Grid, Flex } from "@radix-ui/themes";
+import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
-import { Description } from "@radix-ui/themes/components/alert-dialog";
+import { Suspense } from "react";
+import DashBoardSkeleton from "./DashBoardSkeleton";
+import IssueChart from "./IssueChart";
+import IssueSummaryPage from "./IssueSummaryPage";
+import LatestIssueComponent from "./LatestIssueComponent";
 
 const Home = async () => {
   const openCount = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -21,11 +22,14 @@ const Home = async () => {
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
-      <LatestIssueComponent />
-      <Flex direction="column" gap="5">
-        <IssueSummaryPage dashBoardProps={dashBoardProps} />
-        <IssueChart dashBoardProps={dashBoardProps} />
-      </Flex>
+      <Suspense fallback={<DashBoardSkeleton />}>
+        <LatestIssueComponent />
+
+        <Flex direction="column" gap="5">
+          <IssueSummaryPage dashBoardProps={dashBoardProps} />
+          <IssueChart dashBoardProps={dashBoardProps} />
+        </Flex>
+      </Suspense>
     </Grid>
   );
 };
