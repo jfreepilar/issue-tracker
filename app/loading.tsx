@@ -1,11 +1,12 @@
-import React from 'react'
+import { Spinner } from "@radix-ui/themes";
+import React from "react";
 
 const loading = () => {
   return (
     <div>
-        Global Loading ...
+      <Spinner size="3" />
     </div>
-  )
-}
+  );
+};
 
-export default loading
+export default loading;
