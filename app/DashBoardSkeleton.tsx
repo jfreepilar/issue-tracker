@@ -28,14 +28,14 @@ const DashBoardSkeleton = () => {
 
       <Flex gap="4" direction="column" className="w-full">
         <Flex gap="4">
-          {[...Array(3)].map(() => (
-            <Skeleton width="111px" height="80px" />
+          {[...Array(3)].map((_, i) => (
+            <Skeleton key={i} width="111px" height="80px" />
           ))}
         </Flex>
         <Card>
           <Flex gap="110px" px="3rem">
-            {[...Array(3)].map(() => (
-              <Flex direction="column" gap="1">
+            {[...Array(3)].map((_, i) => (
+              <Flex key={i} direction="column" gap="1">
                 <Skeleton width="60px" height="210px" />
                 <Skeleton width="60px" height="24px" />
               </Flex>
