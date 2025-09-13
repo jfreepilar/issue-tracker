@@ -8,9 +8,9 @@ import NavBar from "./navbar";
 import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
-	subsets: ["latin"],
-	display: "swap",
-	variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -26,18 +26,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <QueryClientProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <QueryClientProvider>
             <Theme accentColor="violet" grayColor="mauve">
               <NavBar />
               <main className="p-5">
-              <Container>
-                {children}
-              </Container>            
+                <Container>{children}</Container>
               </main>
             </Theme>
-          </AuthProvider>
-        </QueryClientProvider>
+          </QueryClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );
