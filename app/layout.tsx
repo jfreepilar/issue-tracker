@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./auth/provider";
 import "./globals.css";
-import NavBar from "./navbar";
+import NavBar from "./NavBar";
 import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
