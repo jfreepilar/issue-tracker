@@ -32,7 +32,7 @@ export async function PATCH(
   });
 
   if (!issue)
-    return NextResponse.json({ error: "Invalparams. issue" }, { status: 404 });
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
   const updateIssue = await prisma.issue.update({
     where: { id },
@@ -45,7 +45,10 @@ export async function PATCH(
   return NextResponse.json(updateIssue);
 }
 
-export async function DELETE({ params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
 
@@ -55,7 +58,7 @@ export async function DELETE({ params }: { params: Promise<{ id: string }> }) {
     where: { id },
   });
   if (!issue)
-    return NextResponse.json({ error: "Invalparams. issue" }, { status: 404 });
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
   await prisma.issue.delete({
     where: { id },
