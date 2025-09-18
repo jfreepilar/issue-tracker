@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client";
 import { Card, Table, Flex, Heading, Text, Avatar } from "@radix-ui/themes";
 import Link from "next/link";
 import { IssueStatusBadge } from "./components";
+import { string } from "zod";
 
 const LatestIssueComponent = async () => {
   const issues = await prisma.issue.findMany({
@@ -10,6 +11,10 @@ const LatestIssueComponent = async () => {
     include: {
       assignedToUser: true,
     },
+  });
+
+  const issueTitle = await prisma.issue.findMany({
+    select: { title: true },
   });
 
   return (
@@ -42,6 +47,9 @@ const LatestIssueComponent = async () => {
           ))}
         </Table.Body>
       </Table.Root>
+      {issueTitle.map((issue) => (
+        <p>{issue.title}</p>
+      ))}
     </Card>
   );
 };
