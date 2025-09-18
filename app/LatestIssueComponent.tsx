@@ -18,6 +18,7 @@ const LatestIssueComponent = async () => {
         <Text>No Issues yet</Text>
       ) : (
         <Table.Root>
+          <Heading> Latest Issues</Heading>
           <Table.Body>
             {issues.map((issue) => (
               <Table.Row key={issue.id}>
@@ -45,7 +46,6 @@ const LatestIssueComponent = async () => {
           </Table.Body>
         </Table.Root>
       )}
-      <Heading> Latest Issues</Heading>
     </Card>
   );
 };
