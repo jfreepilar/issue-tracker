@@ -47,8 +47,8 @@ const LatestIssueComponent = async () => {
           ))}
         </Table.Body>
       </Table.Root>
-      {issueTitle.map((issue) => (
-        <p>{issue.title}</p>
+      {issueTitle.map((issue, index) => (
+        <p key={index}>{issue.title}</p>
       ))}
     </Card>
   );
