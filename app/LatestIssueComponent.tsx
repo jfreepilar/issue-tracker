@@ -14,34 +14,38 @@ const LatestIssueComponent = async () => {
 
   return (
     <Card>
-      <Heading> Latest Issues</Heading>
-      <Table.Root>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Flex justify="between">
-                  <Flex direction="column" align="start" gap="2">
-                    <Link href={`/issues/${issue.id}`} className="text-lg">
-                      {issue.title}
-                    </Link>
-                    <Text>{issue.createdAt.toDateString()}</Text>
-                    <IssueStatusBadge status={issue.status} />
+      {issues.length === 0 ? (
+        <Text>No Issues yet</Text>
+      ) : (
+        <Table.Root>
+          <Table.Body>
+            {issues.map((issue) => (
+              <Table.Row key={issue.id}>
+                <Table.Cell>
+                  <Flex justify="between">
+                    <Flex direction="column" align="start" gap="2">
+                      <Link href={`/issues/${issue.id}`} className="text-lg">
+                        {issue.title}
+                      </Link>
+                      <Text>{issue.createdAt.toDateString()}</Text>
+                      <IssueStatusBadge status={issue.status} />
+                    </Flex>
+                    {issue.assignedToUser && (
+                      <Avatar
+                        src={issue.assignedToUser.image!}
+                        fallback="?"
+                        size="3"
+                        radius="full"
+                      />
+                    )}
                   </Flex>
-                  {issue.assignedToUser && (
-                    <Avatar
-                      src={issue.assignedToUser.image!}
-                      fallback="?"
-                      size="3"
-                      radius="full"
-                    />
-                  )}
-                </Flex>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
+      <Heading> Latest Issues</Heading>
     </Card>
   );
 };
