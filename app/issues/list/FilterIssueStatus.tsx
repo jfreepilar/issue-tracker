@@ -1,6 +1,7 @@
 "use client";
-import { Status } from "@prisma/client";
-import { Select } from "@radix-ui/themes";
+import { NoIssueCard } from "@/app/components";
+import { Issue, Status } from "@prisma/client";
+import { Box, Card, Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const statuses: { label: string; value: Status | "ALL" }[] = [

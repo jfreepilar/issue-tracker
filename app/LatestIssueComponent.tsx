@@ -1,7 +1,7 @@
 import { prisma } from "@/prisma/client";
-import { Card, Table, Flex, Heading, Text, Avatar } from "@radix-ui/themes";
+import { Avatar, Box, Flex, Heading, Table, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import { IssueStatusBadge } from "./components";
+import { IssueStatusBadge, NoIssueCard } from "./components";
 
 const LatestIssueComponent = async () => {
   const issues = await prisma.issue.findMany({
@@ -13,9 +13,9 @@ const LatestIssueComponent = async () => {
   });
 
   return (
-    <Card>
+    <Box>
       {issues.length === 0 ? (
-        <Text>No Issues yet</Text>
+        <NoIssueCard />
       ) : (
         <Table.Root>
           <Heading> Latest Issues</Heading>
@@ -46,7 +46,7 @@ const LatestIssueComponent = async () => {
           </Table.Body>
         </Table.Root>
       )}
-    </Card>
+    </Box>
   );
 };
 

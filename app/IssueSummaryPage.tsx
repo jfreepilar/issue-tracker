@@ -1,7 +1,6 @@
 import { Status } from "@prisma/client";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
 
 interface Props {
   open: number;
@@ -20,6 +19,8 @@ const IssueSummaryPage = ({ dashBoardProps }: { dashBoardProps: Props }) => {
     { label: "In Progress Issues", value: inProgress, status: "IN_PROGRESS" },
     { label: "Closed Issues", value: closed, status: "CLOSED" },
   ];
+
+  if (open === 0 && inProgress === 0 && closed === 0) return null;
 
   return (
     <Flex gap="4">

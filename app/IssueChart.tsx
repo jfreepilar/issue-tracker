@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@radix-ui/themes";
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface Props {
   open: number;
@@ -16,6 +16,8 @@ const IssueChart = ({ dashBoardProps }: { dashBoardProps: Props }) => {
     { label: "In Progress", value: inProgress },
     { label: "Closed", value: closed },
   ];
+
+  if (open === 0 && inProgress === 0 && closed === 0) return null;
 
   return (
     <Card>

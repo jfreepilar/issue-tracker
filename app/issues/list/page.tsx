@@ -3,12 +3,12 @@ import { searchParamsSchema } from "@/app/validationIssueSchema";
 import { prisma } from "@/prisma/client";
 import { Status } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 import NextLink from "next/link";
 import z from "zod";
 import FilterIssueStatus from "./FilterIssueStatus";
 import IssueTable from "./IssueTable";
 import SortIssues from "./SortIssues";
-import { Metadata } from "next";
 
 const IssuesPage = async ({
   searchParams,
@@ -59,7 +59,7 @@ const IssuesPage = async ({
           <NextLink href="/issues/new">New Issue</NextLink>
         </Button>
       </Flex>
-      <IssueTable issues={issues} />
+      <IssueTable issues={issues || []} />
       <Pagination
         itemCount={issueCount}
         pageSize={pageSize}
