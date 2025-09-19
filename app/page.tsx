@@ -1,8 +1,6 @@
 import { prisma } from "@/prisma/client";
 import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
-import { Suspense } from "react";
-import DashBoardSkeleton from "./DashBoardSkeleton";
 import IssueChart from "./IssueChart";
 import IssueSummaryPage from "./IssueSummaryPage";
 import LatestIssueComponent from "./LatestIssueComponent";
@@ -22,14 +20,12 @@ const Home = async () => {
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
-      <Suspense fallback={<DashBoardSkeleton />}>
-        <LatestIssueComponent />
+      <LatestIssueComponent />
 
-        <Flex direction="column" gap="5">
-          <IssueSummaryPage dashBoardProps={dashBoardProps} />
-          <IssueChart dashBoardProps={dashBoardProps} />
-        </Flex>
-      </Suspense>
+      <Flex direction="column" gap="5">
+        <IssueSummaryPage dashBoardProps={dashBoardProps} />
+        <IssueChart dashBoardProps={dashBoardProps} />
+      </Flex>
     </Grid>
   );
 };
